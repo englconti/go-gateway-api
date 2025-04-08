@@ -1,6 +1,7 @@
 ### variaveis globais
 @base_url = http://localhost:8080
 
+@genericApiKey = 435b92c62f807db714039f358d1e8374
 @apiKey = {{createAccount.response.body.api_key}}
 
 ### criar conta
@@ -10,12 +11,12 @@ Content-Type: application/json
 
 {
     "name": "Leo Conti",
-    "email": "leo.conti4@example.com"
+    "email": "leo.conti6@example.com"
 }
 
 ### Obter dados da conta
 GET {{base_url}}/accounts
-X-API-KEY: {{apiKey}}
+X-API-KEY: {{genericApiKey}}
 
 
 ### Obter dados da conta
@@ -24,3 +25,54 @@ X-API-KEY: "d2d53288b58724230e6863ec2c7eb7de"
 
 
 ### 199880b2377bd63633d7e7e5eb12a16b
+
+@createdInvoiceId = {{createInvoice.response.body.id}}
+
+### Criar invoice
+# @name createInvoice
+POST {{base_url}}/invoice
+X-API-KEY: {{genericApiKey}}
+Content-Type: application/json
+
+{
+    "amount": 1000,
+    "description": "Teste",
+    "payment_type": "credit_card",
+    "card_number": "1234567890123456",
+    "card_holder_name": "John Doe",
+    "expiry_month": 12,
+    "expiry_year": 2024,
+    "cvv": "123"
+}
+
+### Obter invoice
+GET {{base_url}}/invoice/{{createdInvoiceId}}
+X-API-KEY: {{apiKey}}
+
+### Listar invoices
+GET {{base_url}}/invoice
+X-API-KEY: {{apiKey}}
+
+
+@createdPendingInvoiceId = {{createPendingInvoice.response.body.id}}
+
+### Criar PENDING invoice
+# @name createPendingInvoice
+POST {{base_url}}/invoice
+X-API-KEY: {{genericApiKey}}
+Content-Type: application/json
+
+{
+    "amount": 100000,
+    "description": "Teste",
+    "payment_type": "credit_card",
+    "card_number": "1234567890123456",
+    "card_holder_name": "John Doe",
+    "expiry_month": 12,
+    "expiry_year": 2024,
+    "cvv": "123"
+}
+
+### Obter invoice
+GET {{base_url}}/invoice/{{createdPendingInvoiceId}}
+X-API-KEY: {{apiKey}}

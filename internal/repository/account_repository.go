@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql" // pacote do go para praticamente comunicar com qlq banco de dados
+	"log"
 
 	"time"
 
@@ -62,6 +63,8 @@ func (r *AccountRepository) FindByAPIKey(apiKey string) (*domain.Account, error)
 		&account.UpdatedAt,
 	)
 	if err == sql.ErrNoRows {
+		// log an error
+		log.Printf("Account not found for API key: %s", apiKey)
 		return nil, domain.ErrAccountNotFound
 	}
 	if err != nil {
